@@ -1,5 +1,5 @@
-const  {log,biglog,errorlog,colorize} = require("./out");
 const model = require('./model');
+const {log, biglog, errorlog, colorize} = require("./out");
 
 
 exports.helpCmd = rl => {
@@ -20,17 +20,41 @@ rl.prompt();
 };
 
 exports.listCmd = rl => {
-console.log('Listar todos los quizzes existentes .');
-};
-exports.addCmd = rl => {
-log('Añadir un nuevo quiz.');
-rl.prompt();
+//recorrer con for each
+model.getAll().forEach((quiz,id) => {
+   log(' [${colorize(id,"magenta")}]:  ${quiz.question} '); 
+});
 
+rl.prompt();
+};
+
+exports.addCmd = rl => {
+//rl.question(colorize(" Introduzca una pregunta: ", "red"), question => {
+//	rl.question(colorize("Introduzcala respuesta","red"), answer => {
+
+//		model.add(question,answer);
+//		log(' ${colorize("Se ha añadido", "magenta")}: ${question} ${colorize("=>","magenta")} ');
+
+//			rl.prompt();
+//}):
+//});
 };
 
 exports.showCmd = (rl,id) => {
-log('Mostrar el quiz indicado.');
-rl.prompt();
+ if (typeof id === "undefined"){
+ 	 errorlog('Falta el parámetro id.');
+ 	} else{
+ 		try{
+ 			const quiz = model.getByIndex(id);
+ 			log(' [${colorize(id, "magenta")}]: ${quiz.question} ${colorize} ${colorize("=>","magenta")} ${answer}');
+ 		} catch(error) {
+ 			errorlog(error.message);
+ 		}
+ 	}
+ 	rl.prompt();
+
+
+
 };
 
 exports.testCmd = (rl,id) => {

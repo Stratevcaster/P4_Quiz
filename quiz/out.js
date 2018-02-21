@@ -1,4 +1,6 @@
-const figlet = require('figlet');
+
+
+ const figlet = require('figlet');
 const chalk = require('chalk');
 const colorize = (msg, color) => {
 	if (typeof color !== "undefined") {
