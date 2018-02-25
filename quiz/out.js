@@ -2,7 +2,9 @@
 
  const figlet = require('figlet');
 const chalk = require('chalk');
+
 const colorize = (msg, color) => {
+
 	if (typeof color !== "undefined") {
 		msg = chalk[color].bold(msg);
 	}
@@ -16,7 +18,7 @@ const biglog = (msg, color) => {
 log(figlet.textSync(msg, {horizontalLayout: 'full' }), color);
 };
 const errorlog = (emsg) => {
-log('${colorize("Error", "red")};: ${colorize(colorize(emsg,"red"), "bgYellowBright")}');
+log(`${colorize("Error", "red")};: ${colorize(colorize(emsg,"red"), "bgYellowBright")}`);
 };
  
 

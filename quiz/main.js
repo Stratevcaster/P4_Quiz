@@ -1,27 +1,27 @@
-const cmds = require("./cmds");
+const cmds = require('./cmds');
 const model = require('./model');
 const {log, biglog, errorlog, colorize} = require("./out");
 
 
-biglog('CORE QUIZ ', 'green');
+ biglog('CORE QUIZ ', 'green');
  const readline = require('readline');
  const rl = readline.createInterface({
 	input:process.stdin,
 	output: process.stdout,
 	prompt: colorize("quiz> ", 'blue'),
-//        completer: (line) => {
- // const completions = 'help add delete edit list test p play credits quit q'.split(' ');
- // const hits = completions.filter((c) => c.startsWith(line));
- // return [hits.length ? hits : completions, line];
-   //    }
+        completer: (line) => {
+  const completions = 'help add delete edit list test p play credits quit q'.split(' ');
+  const hits = completions.filter((c) => c.startsWith(line));
+  return [hits.length ? hits : completions, line];
+       }
 	});
 rl.prompt();
 
 rl
 .on('line',(line) => {
-let args = line.split("");
+let args = line.split(" ");
 let cmd = args[0].toLowerCase().trim();
-
+console.log (cmd)
  switch (cmd) {
 	case '':
 	rl.prompt();
@@ -39,6 +39,7 @@ let cmd = args[0].toLowerCase().trim();
 	cmds.addCmd(rl);
 	break;
 	case 'list':
+	
 	cmds.listCmd(rl);
 	break;
 	case 'show':
@@ -61,7 +62,7 @@ let cmd = args[0].toLowerCase().trim();
 	cmds.creditsCmd(rl);
 	break;	
 	default:
-	 log(`Say what? I might have heard '${cmd}'`);
+	 log(` Comando desconocido: '${colorize(cmd,'red')}'`);
 	log('Usa help para ver todos los comandos disponibles');
 	rl.prompt();
 	break;
