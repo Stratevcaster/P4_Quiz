@@ -93,11 +93,11 @@ exports.testCmd = (rl,id) => {
 
 
 exports.playCmd = rl => {
- let socre = 0;
+ let score = 0;
  let toBeResolved = []; // ids de todas las preguntas que existen
  //voy a meter todas las preguntas existentes
- 	for (i = 0; i< quizzes.length-1; i++){
- 		toBeResolved[i]=quizzes.id;
+ 	for (i = 0; i< quizzes.length; i++){
+ 		toBeResolved.push(i);
  	}
  	
  		//si el array existe y no esta vacio 
@@ -119,7 +119,6 @@ exports.playCmd = rl => {
  		 				}
  		 		});
  		 	}
- 		
  		 	else{
  		 		errorlog(`No hay preguntas por esponder.`);
  		 		log(` ${colorize("El resultado obtenido de momento es:","magenta")} ${score}`);
@@ -173,7 +172,7 @@ if (typeof id === "undefined"){
 };
 exports.creditsCmd = rl => {
 log('Autores de la practica:');
-log('Nombre 1');
+log('YANI');
 rl.prompt();
 
 };
