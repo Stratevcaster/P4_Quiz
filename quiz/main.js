@@ -3,7 +3,7 @@ const model = require('./model');
 const {log, biglog, errorlog, colorize} = require("./out");
 
 
- biglog('CORE QUIZ ', 'green');
+ biglog('CORE quiz   ', 'green');
  const readline = require('readline');
  const rl = readline.createInterface({
 	input:process.stdin,
