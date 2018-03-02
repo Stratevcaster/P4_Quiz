@@ -90,42 +90,48 @@ exports.testCmd = (rl,id) => {
  	rl.prompt();
 
 };
-
-
 exports.playCmd = rl => {
  let score = 0;
  let toBeResolved = []; // ids de todas las preguntas que existen
  //voy a meter todas las preguntas existentes
- 	for (i = 0; i< quizzes.length; i++){
+ let quizzes = model.getAll();
+  	for (let i = 0; i< quizzes.length; i++){
  		toBeResolved.push(i);
  	}
- 	
- 		//si el array existe y no esta vacio 
- 		//funcion interna 
+ 
  		const playOne = () => {
- 		if(typeof toBeResolved !== `undefined` && toBeResolved.length>0)
- 			 {
- 		 	//una pregunta al azar de las que hay en el array
- 		 		let id = toBeResolved[Math.floor(quizzes.length*Math.random())];
- 		 		let quiz = model.quiz(id);
- 		 		toBeResolved.splice(id,1); // quito del array un elemento 
- 		 		rl.question(quiz.question, respuesta => {
- 		 			if (respuesta.toLowerCase().trim() === quiz.answer){
- 		 			log(` ${colorize("BIEN,Respuesta correcta","magenta")} ${score+1} `);
- 		 			playOne(); // recursividad vuelve a empezar desde el principio para preguntar otra vez 
+ 			if(toBeResolved.length === 0){
+ 				log('No hay nada mas que preguntar');
+ 				log(` ${colorize("El resultado obtenido de momento es:","magenta")} ${score}`);
+ 				fin();
+ 				rl.prompt();
+ 			}
+ 			else {
+ 		 		let id = Math.floor((Math.random()*toBeResolved.length));
+ 				let quiz = quizzes[id];
+ 				rl.question(` ${colorize(quiz.question, "red")}${colorize('?' , 'red')} ` , (respuesta) => {
+ 				//rl.question(quiz.question, respuesta => {
+ 					if (respuesta.trim().toLowerCase() === quiz.answer.toLowerCase()) {
+ 						score++;
+ 		 			 //log(` ${colorize("BIEN,Respuesta correcta","magenta")} ${score} `);
+ 		 			 toBeResolved.splice(id, 1);
+ 		 			 quizzes.splice(id, 1);
+ 		 			 playOne(); // recursividad vuelve a empezar desde el principio para preguntar otra vez 
  		 			}
  		 			else{
- 		 			log(` ${colorize("MAL, Respuesta incorrecta","magenta")}`);
+ 		 			log(`${colorize("MAL, Respuesta incorrecta","magenta")}`);
+ 		 			fin();
+ 		 			rl.prompt();
  		 				}
- 		 		});
- 		 	}
- 		 	else{
- 		 		errorlog(`No hay preguntas por esponder.`);
- 		 		log(` ${colorize("El resultado obtenido de momento es:","magenta")} ${score}`);
- 		 		}
- 		 	rl.prompt();
- 		 
-		}
+ 		 					
+ 		 		     });
+ 			    }
+	};
+	const  fin =() => {
+		log(`Fin del examen aciertos:`);
+		biglog(score, 'magenta');
+	}
+	playOne();
 	};
 
 exports.deleteCmd = (rl,id) => {
@@ -176,3 +182,24 @@ log('YANI');
 rl.prompt();
 
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
