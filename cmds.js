@@ -59,7 +59,7 @@ exports.showCmd = (rl,id) => {
 // En funcion de su respuesta se comprueba si ha fallado o ha acertado
 exports.testCmd = (rl,id) => {
 	if (typeof id === "undefined"){
-		errorlog(`Falta el parámetro id.`);
+		log(`Falta el parámetro id.`);
 		rl.prompt();  
 		}else{
 			try {
@@ -83,7 +83,7 @@ exports.testCmd = (rl,id) => {
 
 				}
 				catch (error){
-				errorlog(error.message);
+				log(error.message);
 				}
 		
 			}
