@@ -131,7 +131,7 @@ exports.playCmd = rl => {
 	};
 	const  fin =() => {
 		log(`Fin del examen aciertos:`);
-		biglog(score, 'magenta');
+		log(score, 'magenta');
 	}
 	playOne();
 	};
