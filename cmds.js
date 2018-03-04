@@ -66,16 +66,16 @@ exports.testCmd = (rl,id) => {
 			const quiz = model.getByIndex(id);
 				//lo que queremos aqui es preguntar, 
 				log(`[${colorize(id, "magenta")}]: ${quiz.question} ${colorize("=>","magenta")} `);
-				//process.stdout.isTTY && setTimeout(() => {rl.write(quiz.question)},0);
+				
 				rl.question(colorize(`${quiz.question}: `), respuesta => {
 			
 				//rl.question quiz.question 
 				if (respuesta.toLowerCase().trim() === quiz.answer) {
-						console.log( "La respuesta es correcta");
+						console.log( 'La respuesta es correcta');
 						rl.prompt();
 					}
 					else{
-					console.log( "La respuesta no es correcta");
+					console.log( 'La respuesta no es correcta');
 					rl.prompt();
 					}				
 			
