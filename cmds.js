@@ -70,7 +70,7 @@ exports.testCmd = (rl,id) => {
 				rl.question(colorize(`${quiz.question}: `), respuesta => {
 			
 				//rl.question quiz.question 
-				if (respuesta.toLowerCase().trim() === quiz.answer) {
+				if (respuesta === quiz.answer) {
 						console.log( 'La respuesta es correcta');
 						rl.prompt();
 					}
