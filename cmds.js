@@ -112,13 +112,13 @@ exports.playCmd = rl => {
  				//rl.question(quiz.question, respuesta => {
  					if (respuesta.trim().toLowerCase() === quiz.answer.toLowerCase()) {
  						score++;
- 		 			 //log(` ${colorize("BIEN,Respuesta correcta","magenta")} ${score} `);
+ 		 			 log(` ${colorize("correcta","magenta")} ${score} `);
  		 			 toBeResolved.splice(id, 1);
  		 			 quizzes.splice(id, 1);
  		 			 playOne(); // recursividad vuelve a empezar desde el principio para preguntar otra vez 
  		 			}
  		 			else{
- 		 			log(`${colorize("MAL, Respuesta incorrecta","magenta")}`);
+ 		 			log(`${colorize("incorrecta","magenta")}`);
  		 			fin();
  		 			rl.prompt();
  		 				}
