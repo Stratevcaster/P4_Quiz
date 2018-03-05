@@ -71,11 +71,11 @@ exports.testCmd = (rl,id) => {
 			
 				//rl.question quiz.question 
 				if (respuesta === quiz.answer) {
-						console.log( 'La respuesta es correcta');
+						log( 'correcta');
 						rl.prompt();
 					}
 					else{
-					console.log( 'La respuesta no es correcta');
+					log( 'incorrecta');
 					rl.prompt();
 					}				
 			
