@@ -58,6 +58,8 @@ exports.showCmd = (rl,id) => {
 //Pregunta al usuario a ver si contesta o no, 
 // En funcion de su respuesta se comprueba si ha fallado o ha acertado
 exports.testCmd = (rl,id) => {
+	
+/**
 	if (typeof id === "undefined"){
 		errorlog(`Falta el parámetro id.`);
 		rl.prompt();  
@@ -81,16 +83,18 @@ exports.testCmd = (rl,id) => {
 				
 				});
 
-				}
+				}	
 				catch (error){
 				errorlog(error.message);
 				}
 		
 			}
  	rl.prompt();
-
+*/
 };
+
 exports.playCmd = rl => {
+ /**
  let score = 0;
  let toBeResolved = []; // ids de todas las preguntas que existen
  //voy a meter todas las preguntas existentes
@@ -126,6 +130,7 @@ exports.playCmd = rl => {
  		 					
  		 		     });
  			    }
+ 			    */
 	};
 	const  fin =() => {
 		log(`Fin del examen aciertos:`);
@@ -135,47 +140,50 @@ exports.playCmd = rl => {
 	};
 
 exports.deleteCmd = (rl,id) => {
-if (typeof id === "undefined"){
- 	 errorlog(`Falta el parámetro id.`);
- 	} else{
- 		try{
- 			model.deleteByIndex(id);
- 			
- 		} catch(error) {
- 			errorlog(error.message);
- 		}
- 	}
- 	rl.prompt();
-
+	// devuelve el id
+ validateId(id)
+ // el elemento que quiero destruir es id 
+ .then(id =>models.qui.destroy({where:{id}}))
+ .catch(error => {
+ 	errorlog(error.message);
+ })
+ .then(() =>{
+ 	 rl.prompt();
+ });
 };
 
 exports.editCmd = (rl,id) =>{
-if (typeof id === "undefined"){
- 	 errorlog(`Falta el parámetro id.`);
- 	 rl.prompt();
- 	} else{
- 		try{
-
-
- 			const quiz = model.getByIndex(id);
- 			//Antes de la llamada de pregunta ejecuto un escritor automatico que me tiempo dd espera 0,
- 			process.stdout.isTTY && setTimeout(() => {rl.write(quiz.question)},0);
-
- 			rl.question(colorize('Introduzca una pregunta:', 'red'), question => {
- 				process.stdout.isTTY && setTimeout(() => {rl.write(quiz.answer)},0);
- 				rl.question(colorize(' Introduzca la respuesta ', 'red'), answer => {
- 					model.update(id, question, answer);
- 					//log(' Se ha cambiado el qui ${colorize(id, 'magenta')} por: ${question} $colorize
- 						rl.prompt();
- 				});
+ validateId(id)
+ .then(id => models.quiz.findById(id))
+ .then(quiz => {
+ 	if (!quiz){
+ 		throw new Error(`No existe un quiz asociado al id =${id}.`);
+ 	}
+ 	 process.stdout.isTTY && setTimeout(() =>{rl.write(quiz.question)},0);
+ 	 return makeQuestion(rl, 'Introduzca la pregunta:')
+ 	 .then(a => {
+ 	 	quiz.question=q;
+ 	 	quiz.answer =a;
+ 	 	return quiz;
+ 	 });
+ 	 });
+ 	
+ })
+	.then(quiz => {
+		return quiz.save();
+	})
+	.then(quiz => {
+		log( ` Se ha cambiado el quiz ${colorize(quiz.id, "magenta")} por: ${quiz.question} ${colorize("=>","magenta")} `);
+	})
+	.catch(error =>{
+		errorlog(error.message);
+	})
+	.then(() =>{
+		rl.prompt();
 	});
-} catch(error){
-	errorlog(error.message);
-	rl.prompt();
-			}
-	}
+	};
+	
 
-};
 exports.creditsCmd = rl => {
 log('Autores de la practica:');
 log('YANI');
