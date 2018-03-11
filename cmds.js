@@ -150,25 +150,25 @@ exports.testCmd = (rl,id) => {
  		throw new Error(`No existe un quiz asociado al id =${id}.`);
  	}
 
- 		makeQuestion(rl, ` [${colorize(quiz.id,"magenta")}]: ${quiz.question} `)
+ 		makeQuestion(rl, `${quiz.question} `)
  		.then(a => {
  			if(a === quiz.answer){
  				log( "La respuesta es correcta");
 						rl.prompt();
 						}
-						else{
-							log( "La respuesta no es correcta");
-							rl.prompt();
-						}	
+			else{
+				log( "La respuesta no es correcta");
+						rl.prompt();
+				}	
 
 				})
+ 	})
 				.catch(error=> {
  	errorlog(error.message);
  })
  .then(() => {
  	 rl.prompt();
 
-})
 })
 };
 
