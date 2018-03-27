@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize("sqlite:quizzes.sqlite", {logging: false}); // para poder acceder a la base de datos objeto
-const net = require("net");
 // defino un modelo de datos con preguntas y respuestas con unica pregunta
 sequelize.define('quiz',{
 
