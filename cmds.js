@@ -24,7 +24,7 @@ exports.quitCmd = (socket,rl) => {
 
 exports.addCms = (socket,rl) => {
 
-    makeQuestion(rl, 'Introduzca una pregunta: ')
+    makeQuestion(socket,rl, 'Introduzca una pregunta: ')
         .then(q => {
             return makeQuestion(socket,rl, 'Introduzca la respuesta ')
                 .then(a => {
@@ -191,7 +191,7 @@ exports.editCmd = (socket,rl,id) => {
             return makeQuestion(socket,rl, ' Introduzca la pregunta: ')
                 .then(q => {
                     process.stdout.isTTY && setTimeout(() => {rl.write(quiz.answer)},0);
-                    return makeQuestion(rl, ' Introduzca la respuesta ')
+                    return makeQuestion(socket, rl, ' Introduzca la respuesta ')
                         .then(a => {
                             quiz.question = q;
                             quiz.answer = a;
