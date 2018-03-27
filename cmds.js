@@ -19,6 +19,7 @@ exports.helpCmd = (socket,rl) => {
 
 exports.quitCmd = (socket,rl) => {
     rl.close();
+    socket.end();
 };
 
 exports.addCms = (socket,rl) => {
@@ -90,7 +91,7 @@ exports.testCmd = (socket,rl,id) => {
                 .then(a => {
                     if(quiz.answer.toUpperCase() === a.toUpperCase().trim()){
                         log(socket,"Su respuesta es correcta.");
-                        biglog('Correcta', 'green');
+                        biglog(socket, 'Correcta', 'green');
                     } else{
                         log(socket,"Su respuesta es incorrecta.");
                         biglog(socket,'Incorrecta', 'red');
@@ -154,7 +155,7 @@ exports.playCmd = (socket,rl) => {
         })
 
         .then(() => {
-            biglog(score,'magenta');
+            biglog(socket, score,'magenta');
             rl.prompt();
 
         });
