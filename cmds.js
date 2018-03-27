@@ -24,9 +24,9 @@ exports.quitCmd = (socket,rl) => {
 
 exports.addCms = (socket,rl) => {
 
-    makeQuestion(socket,rl, 'Introduzca una pregunta: ')
+    makeQuestion(rl, 'Introduzca una pregunta: ')
         .then(q => {
-            return makeQuestion(socket,rl, 'Introduzca la respuesta ')
+            return makeQuestion(rl, 'Introduzca la respuesta ')
                 .then(a => {
                     return {question: q, answer: a};
                 });
@@ -87,7 +87,7 @@ exports.testCmd = (socket,rl,id) => {
                 throw new Error(`No existe un quiz asociado al id=${id}.`);
             }
 
-            return makeQuestion(socket,rl,  ` ${quiz.question}? `)
+            return makeQuestion(rl,  ` ${quiz.question}? `)
                 .then(a => {
                     if(quiz.answer.toUpperCase() === a.toUpperCase().trim()){
                         log(socket,"Su respuesta es correcta.");
@@ -128,7 +128,7 @@ exports.playCmd = (socket,rl) => {
             let quiz = toBeResolved[pos];
             toBeResolved.splice(pos,1);
 
-            makeQuestion(socket,rl, quiz.question+'? ')
+            makeQuestion(rl, quiz.question+'? ')
                 .then(answer => {
                     if(answer.toLowerCase().trim() === quiz.answer.toLowerCase().trim()){
                         score++;
@@ -188,10 +188,10 @@ exports.editCmd = (socket,rl,id) => {
 
             process.stdout.isTTY && setTimeout(() => {rl.write(quiz.question)},0);
 
-            return makeQuestion(socket,rl, ' Introduzca la pregunta: ')
+            return makeQuestion(rl, ' Introduzca la pregunta: ')
                 .then(q => {
                     process.stdout.isTTY && setTimeout(() => {rl.write(quiz.answer)},0);
-                    return makeQuestion(socket, rl, ' Introduzca la respuesta ')
+                    return makeQuestion(rl, ' Introduzca la respuesta ')
                         .then(a => {
                             quiz.question = q;
                             quiz.answer = a;
@@ -240,7 +240,7 @@ const validateId = (socket,id) => {
 };
 
 
-const makeQuestion = (socket,rl,text) => {
+const makeQuestion = (rl,text) => {
 
     return new Sequelize.Promise((resolve, reject) => {
         rl.question(colorize(text, 'red'), answer => {
