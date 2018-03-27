@@ -172,8 +172,8 @@ exports.deleteCmd = (socket,rl,id) => {
 };
 
 exports.creditsCmd = (socket,rl) => {
-    console.log(socket,'Autores de la practica');
-    console.log(socket,'YANI');
+    log(socket,'Autores de la practica');
+    log(socket,'YANI');
     rl.prompt();
 };
 
