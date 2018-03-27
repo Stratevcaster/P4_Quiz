@@ -24,7 +24,7 @@ exports.quitCmd = (socket,rl) => {
 
 exports.addCms = (socket,rl) => {
 
-    makeQuestion(socket, rl, 'Introduzca una pregunta: ')
+    makeQuestion(rl, 'Introduzca una pregunta: ')
         .then(q => {
             return makeQuestion(rl, 'Introduzca la respuesta ')
                 .then(a => {
@@ -119,8 +119,8 @@ exports.playCmd = (socket,rl) => {
         return new Promise((resolve,reject) => {
 
             if(toBeResolved.length <=0){
-                console.log(socket,"No hay nada mas que preguntar.");
-                console.log(socket,"Fin del juego. Aciertos:" ,score);
+                log(socket,"No hay nada mas que preguntar.");
+                log(socket,"Fin del juego. Aciertos:" ,score);
                 resolve();
                 return;
             }
@@ -132,11 +132,11 @@ exports.playCmd = (socket,rl) => {
                 .then(answer => {
                     if(answer.toLowerCase().trim() === quiz.answer.toLowerCase().trim()){
                         score++;
-                        console.log(socket,"CORRECTO - Lleva ",score, "aciertos.");
+                        log(socket,"CORRECTO - Lleva ",score, "aciertos.");
                         resolve(playOne());
                     } else {
-                        console.log(socket,"INCORRECTO.");
-                        console.log(socket,"Fin del juego. Aciertos:",score);
+                        log(socket,"INCORRECTO.");
+                        log(socket,"Fin del juego. Aciertos:",score);
                         resolve();
                     }
                 })
@@ -151,7 +151,7 @@ exports.playCmd = (socket,rl) => {
             return playOne();
         })
         .catch(error => {
-            console.log(socket,error);
+            log(socket,error);
         })
 
         .then(() => {
@@ -210,7 +210,7 @@ exports.editCmd = (socket,rl,id) => {
 
         .catch(Sequelize.ValidationError, error => {
             errorlog(socket,'El quiz es erroneo:');
-            error.errors.forEach(({message}) => errorlog(message));
+            error.errors.forEach(({message}) => errorlog(socket,message));
         })
 
         .catch(error => {
