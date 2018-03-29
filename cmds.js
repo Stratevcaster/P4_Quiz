@@ -115,7 +115,7 @@ exports.playCmd = (socket,rl) => {
     let score = 0;
     let toBeResolved = [];
 
-    const playOne = () => {
+    const playOne = (socket) => {
         return new Promise((resolve,reject) => {
 
             if(toBeResolved.length <=0){
