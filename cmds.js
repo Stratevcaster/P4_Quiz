@@ -148,7 +148,7 @@ exports.playCmd = (socket,rl) => {
             toBeResolved = quizzes;
         })
         .then(() => {
-            return playOne();
+            return playOne(socket);
         })
         .catch(error => {
             log(socket,error);
