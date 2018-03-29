@@ -111,57 +111,53 @@ exports.testCmd = (socket,rl,id) => {
 };
    
 
-exports.playCmd = (socket,rl) => {
-    let score = 0;
-    let toBeResolved = [];
+exports.playCmd = (socket, rl) => {
+  let score = 0;
+  let toBeResolved = [];
 
-    const playOne = () => {
-        return new Promise((resolve,reject) => {
 
-            if(toBeResolved.length <=0){
-                log(socket,"No hay nada mas que preguntar.");
-                log(socket,"Fin del juego. Aciertos:" ,score);
-                resolve();
-                return;
-            }
-            let pos = Math.floor(Math.random()*toBeResolved.length);
-            let quiz = toBeResolved[pos];
-            toBeResolved.splice(pos,1);
+  const playOne = () => {
+    return new Promise((resolve, reject) => {
+      if (toBeResolved.length <= 0) {
+        log(socket, 'No hay nada más que preguntar');
+        resolve();
+        return;
+      }
 
-            makeQuestion(rl, quiz.question+'? ')
-                .then(answer => {
-                    if(answer.toLowerCase().trim() === quiz.answer.toLowerCase().trim()){
-                        score++;
-                        log(socket,"CORRECTO - Lleva ",score, "aciertos.");
-                        resolve(playOne());
-                    } else {
-                        log(socket,"INCORRECTO.");
-                        log(socket,"Fin del juego. Aciertos:",score);
-                        resolve();
-                    }
-                })
-        })
-    }
+      let id = Math.floor((Math.random() * toBeResolved.length));
+      let quiz = toBeResolved[id];
+      toBeResolved.splice(id, 1);
 
-    models.quiz.findAll({raw: true})
-        .then(quizzes => {
-            toBeResolved = quizzes;
-        })
-        .then(() => {
-            return playOne();
-        })
-        .catch(error => {
-            log(socket,error);
-        })
+      return makeQuestion(rl, `${quiz.question}`)
+      .then(answer => {
+        if (answer.toLowerCase() === quiz.answer.toLowerCase().trim()) {
+          score++;
+          log(socket, ` ${colorize('Correcto', 'magenta')}`);
+          resolve(playOne());
+        } else {
+          log(socket, ` ${colorize('Incorrecto', 'magenta')}`);
+          resolve();
+        }
+      });
+    });
+  };
 
-        .then(() => {
-              fin();
-            
-            rl.prompt();
+  models.quiz.findAll({raw: true})
+  .then(quizzes => {
+   toBeResolved = quizzes;
+ })
+  .then(() => {
+    return playOne();
+  })
+  .catch(error => {
+    errorlog(socket, error.message);
+  })
+  .then(() => {
+    fin();
+    rl.prompt();
+  });
 
-        });
-    
-const fin = () => {
+  const fin = () => {
     log(socket, `Fin del examen. Aciertos:`);
     biglog(socket, score, 'magenta');
   };
