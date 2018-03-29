@@ -22,7 +22,7 @@ exports.quitCmd = (socket,rl) => {
     socket.end();
 };
 
-exports.addCms = (socket,rl) => {
+exports.addCmd = (socket,rl) => {
 
     makeQuestion(rl, 'Introduzca una pregunta: ')
         .then(q => {
