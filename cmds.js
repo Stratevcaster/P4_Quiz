@@ -159,6 +159,12 @@ exports.playCmd = (socket,rl) => {
             rl.prompt();
 
         });
+    
+const fin = () => {
+    log(socket, `Fin del examen. Aciertos:`);
+    biglog(socket, score, 'magenta');
+  };
+
 };
 
 exports.deleteCmd = (socket,rl,id) => {
