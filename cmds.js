@@ -155,7 +155,8 @@ exports.playCmd = (socket,rl) => {
         })
 
         .then(() => {
-            biglog(socket, score,'magenta');
+              fin();
+            
             rl.prompt();
 
         });
